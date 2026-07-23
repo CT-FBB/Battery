@@ -67,7 +67,7 @@
             <h1>Fiberhome Battery Telemetry Dashboard</h1>
             <p>National Audit for OLT Battery Backup Systems: Capacity, Voltages, and Status</p>
             <div style="margin-top: 8px;">
-                <span style="background: rgba(99, 102, 241, 0.18); border: 1px solid rgba(99, 102, 241, 0.35); color: #a5b4fc; padding: 4px 14px; border-radius: 20px; font-size: 0.8rem; font-family: 'Outfit', sans-serif; font-weight: 600; letter-spacing: 0.04em;">📅 AS OF 23 Jul 2026 10:16:26</span>
+                <span style="background: rgba(99, 102, 241, 0.18); border: 1px solid rgba(99, 102, 241, 0.35); color: #a5b4fc; padding: 4px 14px; border-radius: 20px; font-size: 0.8rem; font-family: 'Outfit', sans-serif; font-weight: 600; letter-spacing: 0.04em;">📅 AS OF 23 Jul 2026 10:35:35</span>
             </div>
         </div>
         <div>
@@ -160,7 +160,6 @@
                     <th>Status</th>
                     <th>Voltage</th>
                     <th>Capacity (SoC)</th>
-                    <th>Temperature</th>
                     <th>Charge Status</th>
                     <th>Error Detail</th>
                 </tr>
@@ -271,7 +270,6 @@
                         <td><span class="badge ${row.status_class}">${row.status}</span></td>
                         <td>${row.voltage}</td>
                         <td><span class="badge ${row.capacity_class}">${row.capacity}</span></td>
-                        <td>${row.temp}</td>
                         <td><span class="badge ${row.charge_class}">${row.charge_status}</span></td>
                         <td style="font-size:0.8rem; color:var(--accent-rose);">${row.error}</td>
                     </tr>
@@ -281,9 +279,9 @@
         }
         
         function exportToExcel() {
-            let csvContent = "data:text/csv;charset=utf-8,IP,Model,Status,Voltage,Capacity,Temperature,ChargeStatus,Error\n";
+            let csvContent = "data:text/csv;charset=utf-8,IP,Model,Status,Voltage,Capacity,ChargeStatus,Error\n";
             filteredData.forEach(row => {
-                csvContent += `${row.ip},${row.model},${row.status},${row.voltage_val},${row.capacity_val},${row.temp},${row.charge_status},"${row.error}"\n`;
+                csvContent += `${row.ip},${row.model},${row.status},${row.voltage_val},${row.capacity_val},${row.charge_status},"${row.error}"\n`;
             });
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
