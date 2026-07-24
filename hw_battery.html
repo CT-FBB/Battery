@@ -410,15 +410,20 @@
                 <div class="kpi-value">53.11 V</div>
                 <div class="kpi-footer">Nominal Telecom Float: 52V - 54.5V</div>
             </div>
-            <div class="glass-card">
-                <div class="kpi-title">Loop Active / Connected</div>
-                <div class="kpi-value">1373</div>
-                <div class="kpi-footer">Disconnected / Offline: <span style="color: var(--accent-rose); font-weight: 600;">117 Groups</span></div>
-            </div>
+
             <div class="glass-card" style="display:flex; flex-direction:column; align-items:center;">
                 <div class="kpi-title" style="margin-bottom: 10px;">🔋 Online Battery Status</div>
                 <div style="position: relative; height:140px; width:140px;">
                     <canvas id="batt0vChart"></canvas>
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2rem; font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--text-primary); z-index: 10; pointer-events: none;">1710</div>
+                </div>
+                <div class="kpi-footer" style="margin-top:8px;">Total Online OLTs</div>
+            </div>
+
+            <div class="glass-card" style="display:flex; flex-direction:column; align-items:center;">
+                <div class="kpi-title" style="margin-bottom: 10px;">🔌 Rectifier Status</div>
+                <div style="position: relative; height:140px; width:140px;">
+                    <canvas id="noRectChart"></canvas>
                     <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2rem; font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--text-primary); z-index: 10; pointer-events: none;">1710</div>
                 </div>
                 <div class="kpi-footer" style="margin-top:8px;">Total Online OLTs</div>
@@ -434,12 +439,7 @@
                 </div>
             </div>
 
-            <div class="glass-card">
-                <div class="chart-title">Loop Connection Status</div>
-                <div style="height: 250px; position: relative;">
-                    <canvas id="loopStatusChart"></canvas>
-                </div>
-            </div>
+
             <div class="glass-card">
                 <div class="chart-title">Avg Battery Voltage by Model</div>
                 <div style="height: 250px; position: relative;">
@@ -651,9 +651,9 @@ currentPage = 1;
         }
 
         function exportToExcel() {
-            let csv = "OLT Name,Model,Status,Battery Hold (HH:MM),Battery Index,Loop Status,Voltage (V),Capacity (SOC),Health (SoH)\n";
+            let csv = "OLT Name,Model,Status,Battery Hold (HH:MM),Battery Index,Loop Status,Voltage (V),Capacity (SOC),Health (SoH),Charge Status,Note / Error\n";
             filteredData.forEach(row => {
-                csv += `"${row.name}","${row.model}","${row.status}","${row.battery_hold}","${row.index}","${row.loop}","${row.voltage}","${row.capacity}","${row.health}"\n`;
+                csv += `"${row.name}","${row.model}","${row.status}","${row.battery_hold}","${row.index}","${row.loop}","${row.voltage}","${row.capacity}","${row.health}","${row.charge_status || 'N/A'}","${row.error || ''}"\n`;
             });
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a");
@@ -705,6 +705,25 @@ currentPage = 1;
 
         function updateSortIcons() {
             const keys = ['name', 'ip', 'model', 'status', 'index', 'type', 'loop', 'voltage_val', 'capacity_val', 'health_val'];
+
+            // Chart 2: Rectifier Status
+            new Chart(document.getElementById("noRectChart"), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Has Data', 'No Rectifier'],
+                    datasets: [{
+                        data: [(rawData.filter(r => r.status==='Online')).length, (rawData.filter(r => r.status==='Online (No Rectifier)')).length],
+                        backgroundColor: ['#3b82f6', '#94a3b8'],
+                        borderWidth: 0,
+                        cutout: '75%'
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, tooltip: { enabled: true } }
+                }
+            });
+
             keys.forEach(k => {
                 const el = document.getElementById(`sort-icon-${k}`);
                 if (el) {
@@ -755,27 +774,6 @@ currentPage = 1;
                     },
                     plugins: {
                         legend: { position: 'top', labels: { color: '#f8fafc', font: { family: 'Inter' } } }
-                    }
-                }
-            });
-
-            // Chart 2: Loop Connection Status Doughnut
-            new Chart(document.getElementById("loopStatusChart"), {
-                type: 'doughnut',
-                data: {
-                    labels: ['Connected', 'Disconnected', 'Unsupported'],
-                    datasets: [{
-                        data: [1373, 117, 125],
-                        backgroundColor: ['#10b981', '#f43f5e', 'rgba(148,163,184,0.3)'],
-                        borderWidth: 1,
-                        borderColor: 'rgba(255,255,255,0.1)'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'right', labels: { color: '#f8fafc', font: { family: 'Inter' } } }
                     }
                 }
             });
@@ -912,8 +910,8 @@ currentPage = 1;
                     ['Battery Low (<50V)',prevSnapshot.low_voltage_count, curr.low_voltage_count, 'inv'],
                     ['Discharging (<52V)',prevSnapshot.discharging_count ?? 0, curr.discharging_count ?? 0, 'inv'],
                     ['SOC < 100%',     prevSnapshot.soc_below_100 ?? 0,curr.soc_below_100 ?? 0, 'inv'],
-                    ['Loop ON',        prevSnapshot.loop_on,           curr.loop_on,           ''],
-                    ['Loop OFF',       prevSnapshot.loop_off,          curr.loop_off,          'inv'],
+                    
+                    
                     ['Loop Invalid',   prevSnapshot.loop_invalid,      curr.loop_invalid,      'inv'],
                     ['Smart Lithium',  prevSnapshot.smart_lithium,     curr.smart_lithium,     '']
                 ];
