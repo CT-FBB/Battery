@@ -72,31 +72,44 @@
     </div>
 
     <div class="kpi-grid">
-            <div class="glass-card">
-                <div class="kpi-title" style="color: var(--accent-amber);">Power Outages</div>
-                <div class="kpi-value">0</div>
-            </div>
+        <div class="glass-card">
+            <div class="kpi-title" style="color: var(--accent-amber);">Power Outages</div>
+            <div class="kpi-value">0</div>
+            <div class="kpi-footer">Sites with battery hold data</div>
+        </div>
         <div class="glass-card">
             <div class="kpi-title">Total OLTs Scanned</div>
             <div class="kpi-value">2111</div>
+            <div class="kpi-footer">Online Rate: <span style="color: var(--accent-emerald); font-weight: 600;">99.5% (2101 OLTs)</span></div>
         </div>
         <div class="glass-card">
             <div class="kpi-title">Average Voltage</div>
             <div class="kpi-value">53.45 V</div>
+            <div class="kpi-footer">Nominal Telecom Float: 52V - 54.5V</div>
         </div>
         <div class="glass-card">
             <div class="kpi-title">Battery Healthy (>= 90%)</div>
             <div class="kpi-value" style="color:var(--accent-emerald)">1433</div>
+            <div class="kpi-footer">State of Charge 90% - 100%</div>
         </div>
         <div class="glass-card">
             <div class="kpi-title">Battery Low / Degrading</div>
             <div class="kpi-value" style="color:var(--accent-amber)">87</div>
+            <div class="kpi-footer">State of Charge < 90%</div>
         </div>
         <div class="glass-card" style="display:flex; flex-direction:column; align-items:center;">
             <div class="kpi-title" style="margin-bottom: 10px;">🔋 Online Battery Status</div>
             <div style="position: relative; height:140px; width:140px;">
                 <canvas id="batt0vChart"></canvas>
-                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2rem; font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--text-primary); z-index: 10; pointer-events: none;">1609</div>
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2rem; font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--text-primary); z-index: 10; pointer-events: none;">2101</div>
+            </div>
+            <div class="kpi-footer" style="margin-top:8px;">Total Online OLTs</div>
+        </div>
+        <div class="glass-card" style="display:flex; flex-direction:column; align-items:center;">
+            <div class="kpi-title" style="margin-bottom: 10px;">🔌 Rectifier Status</div>
+            <div style="position: relative; height:140px; width:140px;">
+                <canvas id="noRectChart"></canvas>
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2rem; font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--text-primary); z-index: 10; pointer-events: none;">2101</div>
             </div>
             <div class="kpi-footer" style="margin-top:8px;">Total Online OLTs</div>
         </div>
@@ -260,8 +273,42 @@
             }
         });
 
+        // No Rectifier Pie Chart
+        const noRectifierCount = rawData.filter(r => r.status === 'Online (No Rectifier)').length;
+        const hasRectifierCount = rawData.filter(r => r.status === 'Online').length;
+        new Chart(document.getElementById('noRectChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Has Rectifier', 'No Rectifier'],
+                datasets: [{
+                    data: [hasRectifierCount, noRectifierCount],
+                    backgroundColor: ['#10b981', '#f59e0b'],
+                    borderWidth: 1,
+                    borderColor: 'rgba(255,255,255,0.1)',
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(ctx) {
+                                let total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                                let pct = total > 0 ? Math.round((ctx.parsed / total) * 100) + '%' : '0%';
+                                return ctx.label + ': ' + ctx.parsed + ' (' + pct + ')';
+                            }
+                        }
+                    }
+                },
+                cutout: '70%'
+            }
+        });
+
         function initChart() {
-            const historyData = [{"date": "2026-07-16", "total_olts": 2111, "responded": 1550, "offline": 561, "avg_voltage": 53.4, "battery_ok": 1350, "battery_low": 110}, {"date": "2026-07-23", "total_olts": 2111, "responded": 1584, "offline": 527, "avg_voltage": 53.47, "battery_ok": 1408, "battery_low": 85, "online_0v": 91, "discharging": 0, "soc_below_100": 168}, {"date": "2026-07-23 20:30", "total_olts": 2063, "responded": 1582, "offline": 481, "avg_voltage": 53.48, "battery_ok": 1407, "battery_low": 84, "online_0v": 91, "discharging": 0, "soc_below_100": 167}, {"date": "2026-07-24 19:27", "total_olts": 2111, "responded": 1609, "offline": 502, "avg_voltage": 53.46, "battery_ok": 1433, "battery_low": 86, "online_0v": 90, "discharging": 0, "soc_below_100": 168}, {"date": "2026-07-24 20:23", "total_olts": 2111, "responded": 1609, "offline": 502, "avg_voltage": 53.45, "battery_ok": 1433, "battery_low": 87, "online_0v": 89, "discharging": 0, "soc_below_100": 166}];
+            const historyData = [{"date": "2026-07-16", "total_olts": 2111, "responded": 1550, "offline": 561, "avg_voltage": 53.4, "battery_ok": 1350, "battery_low": 110}, {"date": "2026-07-23", "total_olts": 2111, "responded": 1584, "offline": 527, "avg_voltage": 53.47, "battery_ok": 1408, "battery_low": 85, "online_0v": 91, "discharging": 0, "soc_below_100": 168}, {"date": "2026-07-23 20:30", "total_olts": 2063, "responded": 1582, "offline": 481, "avg_voltage": 53.48, "battery_ok": 1407, "battery_low": 84, "online_0v": 91, "discharging": 0, "soc_below_100": 167}, {"date": "2026-07-24 19:27", "total_olts": 2111, "responded": 1609, "offline": 502, "avg_voltage": 53.46, "battery_ok": 1433, "battery_low": 86, "online_0v": 90, "discharging": 0, "soc_below_100": 168}, {"date": "2026-07-24 20:23", "total_olts": 2111, "responded": 2101, "offline": 10, "avg_voltage": 53.45, "battery_ok": 1433, "battery_low": 87, "online_0v": 89, "discharging": 0, "soc_below_100": 166}];
             const prevSnapshot = {"date": "2026-07-24 19:27", "total_olts": 2111, "responded": 1609, "offline": 502, "avg_voltage": 53.46, "battery_ok": 1433, "battery_low": 86, "online_0v": 90, "discharging": 0, "soc_below_100": 168};
 
             if (historyData && historyData.length > 0) {
