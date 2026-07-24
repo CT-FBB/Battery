@@ -331,17 +331,23 @@
                     ];
                     tbody.innerHTML = rows.map(([label, prev, cur, inv]) => {
                         const delta = (typeof cur === 'number' && typeof prev === 'number') ? (cur - prev) : null;
+                        const dv = delta !== null ? (Number.isInteger(delta) ? delta : parseFloat(delta.toFixed(1))) : null;
                         let deltaHtml = '—';
-                        if (delta !== null) {
-                            const better = inv ? delta < 0 : delta > 0;
-                            const color  = delta === 0 ? '#94a3b8' : (better ? '#34d399' : '#f87171');
-                            const sign   = delta > 0 ? '+' : '';
-                            deltaHtml = `<span style="color:${color};font-weight:600;">${sign}${delta}</span>`;
+                        if (dv !== null) {
+                            const better = inv ? dv < 0 : dv > 0;
+                            const color  = dv === 0 ? '#94a3b8' : (better ? '#34d399' : '#f87171');
+                            const sign   = dv > 0 ? '+' : '';
+                            deltaHtml = `<span style="color:${color};font-weight:600;">${sign}${dv}</span>`;
                         }
+                        let labelStyle = 'color:#e2e8f0;';
+                        if (label === 'Online but 0V') labelStyle = 'color:#f87171;font-weight:700;';
+                        else if (label.startsWith('Battery Low')) labelStyle = 'color:#fb923c;font-weight:700;';
+                        const pv = (typeof prev === 'number' && !Number.isInteger(prev)) ? parseFloat(prev.toFixed(1)) : prev;
+                        const cv = (typeof cur === 'number' && !Number.isInteger(cur)) ? parseFloat(cur.toFixed(1)) : cur;
                         return `<tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
-                            <td style="padding:6px 8px;color:#e2e8f0; border:none;">${label}</td>
-                            <td style="text-align:right;padding:6px 8px;color:#94a3b8; border:none;">${prev ?? '—'}</td>
-                            <td style="text-align:right;padding:6px 8px;color:#e2e8f0;font-weight:600; border:none;">${cur ?? '—'}</td>
+                            <td style="padding:6px 8px;${labelStyle} border:none;">${label}</td>
+                            <td style="text-align:right;padding:6px 8px;color:#94a3b8; border:none;">${pv ?? '—'}</td>
+                            <td style="text-align:right;padding:6px 8px;color:#e2e8f0;font-weight:600; border:none;">${cv ?? '—'}</td>
                             <td style="text-align:right;padding:6px 8px; border:none;">${deltaHtml}</td>
                         </tr>`;
                     }).join('');
