@@ -13,6 +13,7 @@
         .tab-btn:hover { background: rgba(255,255,255,0.1); color: #fff; transform: translateY(-1px); }
         .tab-btn.active { background: #38bdf8; color: #fff; border-color: #38bdf8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
         .tab-btn.hw-active { background: #f43f5e; color: #fff; border-color: #f43f5e; box-shadow: 0 0 15px rgba(244, 63, 94, 0.4); }
+        .tab-btn.zte-active { background: #10b981; color: #fff; border-color: #10b981; box-shadow: 0 0 15px rgba(16, 185, 129, 0.4); }
         iframe { flex: 1; width: 100%; border: none; background: #030712; }
     </style>
 </head>
@@ -21,6 +22,7 @@
         <div class="title">OLT Battery Monitoring</div>
         <button class="tab-btn active" onclick="switchTab('fbh_battery.html', this, 'active')">Fiberhome (FBH)</button>
         <button class="tab-btn" onclick="switchTab('hw_battery.html', this, 'hw-active')">Huawei (HW)</button>
+        <button class="tab-btn" onclick="switchTab('zte_battery.html', this, 'zte-active')">ZTE</button>
     </div>
     <iframe id="dashboardFrame" src="fbh_battery.html"></iframe>
     <script>
@@ -29,6 +31,7 @@
             document.querySelectorAll('.tab-btn').forEach(b => {
                 b.classList.remove('active');
                 b.classList.remove('hw-active');
+                b.classList.remove('zte-active');
             });
             btn.classList.add(activeClass);
         }
