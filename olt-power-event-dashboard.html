@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OLT Power Event Dashboard 2026-06-25 to 2026-09-04</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#0d0f1a;--sf:#141726;--sf2:#1a1f35;--bd:#252b45;--tx:#e2e8f0;--mu:#8892a4;--r:16px;--sh:0 4px 24px rgba(0,0,0,.4)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.5}
+.hdr{background:linear-gradient(135deg,#1e1b4b,#1e3a5f 50%,#162032);border-bottom:1px solid var(--bd);padding:22px 30px;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 40px rgba(99,102,241,.15)}
+.hlogo{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 0 20px rgba(99,102,241,.4);margin-right:14px;flex-shrink:0}
+.ht h1{font-size:19px;font-weight:700}
+.ht p{font-size:12px;color:var(--mu)}
+.hbadge{display:flex;align-items:center;gap:10px}
+.badge{background:rgba(99,102,241,.2);border:1px solid rgba(99,102,241,.4);padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;color:#a5b4fc;display:flex;align-items:center;gap:5px}
+.badge2{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;color:#fca5a5}
+.bdot{width:6px;height:6px;border-radius:50%;background:#22c55e;animation:pu 2s infinite}
+@keyframes pu{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+.main{padding:22px 30px;max-width:1600px;margin:0 auto}
+.st{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1.2px;color:var(--mu);margin-bottom:13px;margin-top:22px;display:flex;align-items:center;gap:8px}
+.st::before{content:'';display:block;width:3px;height:12px;border-radius:2px;background:#6366f1}
+.kg{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:13px;margin-bottom:4px}
+.kc{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:17px;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.kc:hover{transform:translateY(-3px);box-shadow:var(--sh)}
+.kc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r) var(--r) 0 0}
+.kc.r::before{background:linear-gradient(90deg,#ef4444,#dc2626)}
+.kc.o::before{background:linear-gradient(90deg,#f97316,#ea580c)}
+.kc.y::before{background:linear-gradient(90deg,#eab308,#ca8a04)}
+.kc.g::before{background:linear-gradient(90deg,#22c55e,#16a34a)}
+.kc.b::before{background:linear-gradient(90deg,#3b82f6,#2563eb)}
+.kc.p::before{background:linear-gradient(90deg,#8b5cf6,#7c3aed)}
+.kc.c::before{background:linear-gradient(90deg,#06b6d4,#0891b2)}
+.kc.gray::before{background:linear-gradient(90deg,#64748b,#475569)}
+.ki{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;margin-bottom:9px}
+.kc.r .ki{background:rgba(239,68,68,.15)}.kc.o .ki{background:rgba(249,115,22,.15)}.kc.y .ki{background:rgba(234,179,8,.15)}.kc.g .ki{background:rgba(34,197,94,.15)}.kc.b .ki{background:rgba(59,130,246,.15)}.kc.p .ki{background:rgba(139,92,246,.15)}.kc.c .ki{background:rgba(6,182,212,.15)}.kc.gray .ki{background:rgba(100,116,139,.15)}
+.kl{font-size:11px;color:var(--mu);font-weight:500;margin-bottom:2px}
+.kv{font-size:26px;font-weight:800;letter-spacing:-1px}
+.kc.r .kv{color:#fca5a5}.kc.o .kv{color:#fdba74}.kc.y .kv{color:#fde047}.kc.g .kv{color:#86efac}.kc.b .kv{color:#93c5fd}.kc.p .kv{color:#c4b5fd}.kc.c .kv{color:#67e8f9}.kc.gray .kv{color:#94a3b8}
+.ks{font-size:10px;color:var(--mu);margin-top:2px}
+.row{display:grid;gap:16px;margin-bottom:16px}
+.r21{grid-template-columns:2fr 1fr}.r2{grid-template-columns:1fr 1fr}
+@media(max-width:1100px){.r21,.r2{grid-template-columns:1fr}}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:18px;box-shadow:var(--sh)}
+.ct{font-size:13px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.cw canvas{max-height:265px}.cw.tall canvas{max-height:330px}
+.lgr{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:11px}
+.lgi{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--mu)}
+.lgd{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+.br{display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.bl{min-width:105px;font-size:11px;font-weight:600;color:var(--mu)}
+.bt{flex:1;height:6px;background:var(--sf2);border-radius:3px;overflow:hidden}
+.bf{height:100%;border-radius:3px}
+.bc{min-width:42px;text-align:right;font-size:11px;font-weight:600}
+.twp{overflow-x:auto}.stb{max-height:310px;overflow-y:auto}
+.stb::-webkit-scrollbar{width:4px}.stb::-webkit-scrollbar-track{background:var(--sf2)}.stb::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead tr{border-bottom:1px solid var(--bd)}
+th{text-align:left;padding:6px 9px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.7px;color:var(--mu);white-space:nowrap}
+td{padding:8px 9px;border-bottom:1px solid rgba(37,43,69,.5);white-space:nowrap}
+tbody tr:hover{background:var(--sf2)}
+tbody tr:last-child td{border-bottom:none}
+.tag{display:inline-block;padding:2px 7px;border-radius:5px;font-size:10px;font-weight:600}
+.tr2{background:rgba(239,68,68,.15);color:#fca5a5}.to2{background:rgba(249,115,22,.15);color:#fdba74}.ty2{background:rgba(234,179,8,.15);color:#fde047}.tg2{background:rgba(34,197,94,.15);color:#86efac}
+.cr{color:#fca5a5}.co{color:#fdba74}.cg{color:#86efac}.cb{color:#93c5fd}.cm{color:var(--mu)}.cc{color:#67e8f9}
+.foot{text-align:center;padding:18px;font-size:11px;color:var(--mu);border-top:1px solid var(--bd);margin-top:10px}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div style="display:flex;align-items:center">
+    <div class="hlogo">&#9889;</div>
+    <div class="ht">
+      <h1>OLT Power Event Dashboard</h1>
+      <p>2026-06-25 &rarr; 2026-09-04 &nbsp;&middot;&nbsp; 72 วัน &nbsp;&middot;&nbsp; 41,277 events &nbsp;<span style="color:#fca5a5">(ไม่รวม LAB: QCENG*, NKRLAB1)</span></p>
+    </div>
+  </div>
+  <div class="hbadge">
+    <div class="badge2">&#128683; Excluded LAB: 108 events</div>
+    <div class="badge"><div class="bdot"></div>Live Analysis</div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="st">&#128202; ภาพรวมสรุป (ไม่รวม LAB OLT)</div>
+  <div class="kg">
+    <div class="kc r"><div class="ki">&#128308;</div><div class="kl">No AC &middot; Link Down</div><div class="kv">30,221</div><div class="ks">73.2% ของทั้งหมด</div></div>
+    <div class="kc o"><div class="ki">&#9888;&#65039;</div><div class="kl">No AC &middot; Node Down</div><div class="kv">1,504</div><div class="ks">ไฟดับ + Node รีบูท</div></div>
+    <div class="kc y"><div class="ki">&#128279;</div><div class="kl">Link Down (No AC)</div><div class="kv">707</div><div class="ks">Link ขาด ไม่ Node Down</div></div>
+    <div class="kc p"><div class="ki">&#128128;</div><div class="kl">Node Down</div><div class="kv">126</div><div class="ks">Node ล่ม ไม่เกี่ยวไฟ</div></div>
+    <div class="kc g"><div class="ki">&#9989;</div><div class="kl">Good (ไฟดับ ไม่ขาด)</div><div class="kv">8,719</div><div class="ks">Battery รับไว้ได้</div></div>
+    <div class="kc r"><div class="ki">&#9201;&#65039;</div><div class="kl">Total Service Outage</div><div class="kv">2,002</div><div class="ks">ชั่วโมง (Node Down only)</div></div>
+    <div class="kc c"><div class="ki">&#128267;</div><div class="kl">Battery Hold Events</div><div class="kv">833</div><div class="ks">ครั้งที่ battery รับภาระ</div></div>
+    <div class="kc gray"><div class="ki">&#128683;</div><div class="kl">Excluded (LAB)</div><div class="kv">108</div><div class="ks">QCENG* + NKRLAB1</div></div>
+  </div>
+
+  <div class="st">&#128200; แนวโน้มและสัดส่วน</div>
+  <div class="row r21">
+    <div class="card">
+      <div class="ct">&#128201; Daily Event Trend by Status</div>
+      <div class="lgr">
+        <div class="lgi"><div class="lgd" style="background:#ef4444"></div>No AC&middot;Link Down</div>
+        <div class="lgi"><div class="lgd" style="background:#f97316"></div>No AC&middot;Node Down</div>
+        <div class="lgi"><div class="lgd" style="background:#22c55e"></div>Good</div>
+        <div class="lgi"><div class="lgd" style="background:#eab308"></div>Link Down</div>
+        <div class="lgi"><div class="lgd" style="background:#8b5cf6"></div>Node Down</div>
+      </div>
+      <div class="cw tall"><canvas id="tC"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="ct">&#129383; สัดส่วน Status</div>
+      <div class="cw"><canvas id="dC"></canvas></div>
+      <div style="margin-top:12px">
+        <div class="br"><div class="bl cr">No AC&middot;Link&#8595;</div><div class="bt"><div class="bf" style="width:73.2%;background:linear-gradient(90deg,#ef4444,#dc2626)"></div></div><div class="bc">30,221</div></div>
+        <div class="br"><div class="bl cg">Good</div><div class="bt"><div class="bf" style="width:21.1%;background:linear-gradient(90deg,#22c55e,#16a34a)"></div></div><div class="bc">8,719</div></div>
+        <div class="br"><div class="bl co">No AC&middot;Node&#8595;</div><div class="bt"><div class="bf" style="width:3.6%;background:linear-gradient(90deg,#f97316,#ea580c)"></div></div><div class="bc">1,504</div></div>
+        <div class="br"><div class="bl" style="color:#fde047">Link Down</div><div class="bt"><div class="bf" style="width:1.7%;background:linear-gradient(90deg,#eab308,#ca8a04)"></div></div><div class="bc">707</div></div>
+        <div class="br"><div class="bl" style="color:#c4b5fd">Node Down</div><div class="bt"><div class="bf" style="width:0.3%;background:linear-gradient(90deg,#8b5cf6,#7c3aed)"></div></div><div class="bc">126</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row r2">
+    <div class="card">
+      <div class="ct">&#128198; Monthly Event Breakdown</div>
+      <div class="cw"><canvas id="mC"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="ct">&#8987; Duration Distribution</div>
+      <div class="cw"><canvas id="duC"></canvas></div>
+    </div>
+  </div>
+
+  <div class="st">&#128506;&#65039; วิเคราะห์ตามพื้นที่และอุปกรณ์</div>
+  <div class="row r2">
+    <div class="card">
+      <div class="ct">&#127961;&#65039; Top 20 Province – Events &amp; Node Down</div>
+      <div class="cw tall"><canvas id="pC"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="ct">&#128295; Top 15 Device – Event Count</div>
+      <div class="cw tall"><canvas id="dvC"></canvas></div>
+    </div>
+  </div>
+
+  <div class="row r2">
+    <div class="card">
+      <div class="ct">&#128680; Top 10 Worst Service Outage</div>
+      <div class="twp stb">
+        <table><thead><tr><th>#</th><th>Device</th><th>Site</th><th>Start</th><th>Duration</th><th>Outage</th></tr></thead>
+        <tbody id="wT"></tbody></table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct">&#128267; Top 10 Battery Hold สูงสุด</div>
+      <div class="twp stb">
+        <table><thead><tr><th>#</th><th>Device</th><th>Site</th><th>Start</th><th>Battery Hold</th></tr></thead>
+        <tbody id="bT"></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <div class="st">&#128203; Province Summary Table</div>
+  <div class="card">
+    <div class="ct">&#128202; รายละเอียดตามจังหวัด (Prefix) – Top 20 &nbsp;<span style="font-size:11px;color:var(--mu);font-weight:400">(ไม่รวม LAB OLT)</span></div>
+    <div class="twp stb" style="max-height:370px">
+      <table><thead><tr><th>#</th><th>Province</th><th>Total Events</th><th>No AC Node Down</th><th>Outage (hr)</th><th>Battery</th><th>Node Down Rate</th></tr></thead>
+      <tbody id="pvT"></tbody></table>
+    </div>
+  </div>
+</div>
+<div class="foot">&#9889; OLT Power Event Dashboard &nbsp;&middot;&nbsp; 2026-06-25 &rarr; 2026-09-04 &nbsp;&middot;&nbsp; 41,277 records (ไม่รวม LAB) &nbsp;&middot;&nbsp; Generated 2026-09-22</div>
+
+<script>
+Chart.defaults.color='#8892a4';Chart.defaults.borderColor='rgba(37,43,69,.8)';Chart.defaults.font.family='Inter';
+const tt={backgroundColor:'#1a1f35',borderColor:'#252b45',borderWidth:1,titleColor:'#e2e8f0',bodyColor:'#8892a4',padding:10,cornerRadius:8,titleFont:{weight:'600',size:12}};
+
+const tL=["2026-06-25", "2026-06-26", "2026-06-27", "2026-06-28", "2026-06-29", "2026-06-30", "2026-07-01", "2026-07-02", "2026-07-03", "2026-07-04", "2026-07-05", "2026-07-06", "2026-07-07", "2026-07-08", "2026-07-09", "2026-07-10", "2026-07-11", "2026-07-12", "2026-07-13", "2026-07-14", "2026-07-15", "2026-07-16", "2026-07-17", "2026-07-18", "2026-07-19", "2026-07-20", "2026-07-21", "2026-07-22", "2026-07-23", "2026-07-24", "2026-07-25", "2026-07-26", "2026-07-27", "2026-07-28", "2026-07-29", "2026-07-30", "2026-07-31", "2026-08-01", "2026-08-02", "2026-08-03", "2026-08-04", "2026-08-05", "2026-08-06", "2026-08-07", "2026-08-08", "2026-08-09", "2026-08-10", "2026-08-11", "2026-08-12", "2026-08-13", "2026-08-14", "2026-08-15", "2026-08-16", "2026-08-17", "2026-08-18", "2026-08-19", "2026-08-20", "2026-08-21", "2026-08-22", "2026-08-23", "2026-08-24", "2026-08-25", "2026-08-26", "2026-08-27", "2026-08-28", "2026-08-29", "2026-08-30", "2026-08-31", "2026-09-01", "2026-09-02", "2026-09-03", "2026-09-04"];
+const tNL=[402, 443, 410, 285, 332, 419, 419, 361, 336, 389, 313, 414, 419, 333, 307, 354, 379, 339, 354, 443, 381, 342, 381, 354, 324, 378, 402, 441, 507, 474, 452, 420, 440, 394, 358, 471, 522, 482, 471, 422, 460, 468, 531, 502, 465, 379, 475, 424, 387, 357, 437, 398, 344, 395, 524, 483, 455, 511, 346, 295, 330, 454, 594, 445, 461, 415, 453, 468, 621, 495, 515, 467];
+const tNN=[19, 17, 11, 11, 22, 15, 18, 11, 31, 25, 16, 33, 29, 21, 28, 22, 0, 0, 2, 25, 20, 15, 20, 0, 0, 14, 16, 33, 30, 26, 24, 12, 31, 18, 17, 26, 28, 20, 19, 21, 26, 16, 47, 23, 19, 24, 35, 13, 16, 18, 25, 11, 19, 11, 29, 40, 31, 26, 15, 22, 17, 11, 29, 19, 36, 22, 21, 25, 19, 29, 38, 26];
+const tG=[156, 122, 148, 113, 98, 158, 122, 109, 92, 67, 56, 165, 81, 143, 102, 110, 96, 159, 80, 136, 118, 107, 153, 120, 84, 82, 94, 112, 124, 141, 168, 134, 144, 108, 100, 146, 117, 110, 67, 119, 157, 157, 149, 104, 126, 102, 206, 122, 84, 112, 149, 115, 83, 168, 118, 116, 153, 136, 105, 98, 111, 111, 154, 133, 167, 116, 102, 117, 130, 135, 102, 120];
+const tLd=[12, 16, 11, 10, 10, 8, 16, 12, 9, 11, 6, 7, 14, 8, 8, 10, 8, 12, 6, 10, 12, 7, 10, 10, 5, 5, 15, 12, 15, 13, 9, 6, 15, 4, 7, 12, 10, 7, 5, 6, 11, 14, 15, 16, 7, 6, 9, 12, 4, 4, 11, 12, 9, 11, 9, 21, 13, 10, 14, 2, 7, 2, 8, 9, 14, 4, 6, 6, 16, 8, 13, 15];
+const tNd=[1, 2, 3, 0, 2, 0, 4, 2, 2, 4, 1, 4, 3, 2, 1, 0, 0, 0, 0, 3, 2, 4, 1, 0, 0, 0, 1, 3, 3, 2, 1, 0, 5, 0, 1, 1, 2, 2, 2, 0, 0, 3, 1, 4, 3, 1, 1, 0, 0, 1, 3, 4, 2, 1, 2, 2, 0, 3, 0, 2, 0, 1, 3, 3, 3, 3, 3, 0, 3, 2, 4, 4];
+
+const provD=[["NKR", 2629, 129, 137.8, 39], ["AYT", 2255, 8, 9.0, 10], ["UBR", 1807, 153, 138.7, 20], ["SRB", 1746, 9, 20.9, 15], ["BKK", 1477, 130, 110.3, 73], ["KKN", 1364, 11, 25.4, 24], ["SKN", 1340, 43, 33.5, 23], ["SSK", 1211, 136, 115.5, 8], ["CMI", 1197, 29, 58.4, 42], ["CYP", 1180, 6, 11.3, 10], ["LBR", 1115, 0, 0.0, 4], ["KLS", 938, 113, 116.6, 20], ["RET", 906, 88, 106.4, 8], ["UDT", 887, 14, 42.8, 25], ["CBR", 879, 104, 236.6, 34], ["LOI", 842, 1, 18.2, 15], ["MHR", 809, 15, 9.9, 9], ["NKP", 762, 19, 35.9, 3], ["PSN", 739, 21, 52.3, 18], ["BRR", 725, 24, 3.7, 11]];
+const devD=[["SRB01014G00", "SRB7271", 651, 0.0], ["LBR04025G00", "LBR6025", 405, 0.0], ["NKR20028G00", "NKR7229", 124, 0.0], ["NKR10014G00", "NKR7299", 113, 0.0], ["SKA11068GO0", "SKA8586", 108, 0.0], ["NKP01018GO0", "NKP7219", 107, 0.0], ["TAK08004GO0", "TAK6741", 106, 1.4], ["AYT10008G00", "AYT6772", 100, 0.0], ["YST06005G00", "YST8521", 99, 0.0], ["TRG07007GO0", "TRG6767", 98, 0.0], ["BKK31002GO0", "TNT02", 98, 0.0], ["BKK11029GO0", "BGC10", 91, 0.0], ["CCS10011G00", "CCS6727", 85, 0.0], ["BKK31009GO0", "TNT02", 82, 0.0], ["AYT11019G00", "AYT8656", 82, 0.0]];
+const worstD=[["BKK47001D02", NaN, "2026-08-09 15:03", 2665.0, 2665.0], ["CBR02030GO0", "CBR4014", "2026-07-03 17:16", 1895.0, 1895.0], ["CCS02001GO0", "CCS0013", "2026-08-20 20:31", 1685.0, 1685.0], ["CBR04011GO0", "CBR5563", "2026-06-30 15:04", 1647.0, 1647.0], ["RET01004G00", "RET6759", "2026-08-02 09:33", 1437.0, 1437.0], ["KLS09006G00", "KLS0047", "2026-07-23 18:58", 1431.0, 1431.0], ["CBR01028GO0", "CBR4024", "2026-07-04 15:14", 1412.0, 1412.0], ["CBR01069GO0", "CBR0208", "2026-07-04 15:13", 1413.0, 1343.0], ["PCB07027GO0", "PCB7278", "2026-08-21 15:28", 1996.0, 1176.0], ["RET06008G00", "RET6711", "2026-08-31 17:28", 1125.0, 1125.0]];
+const battD=[["PNA08004GO0", "PNA7226", "2026-07-02 14:33", 97.6], ["PCT02001GO0", "PCT1124", "2026-08-15 17:37", 79.7], ["UBR04010GO0", "UBR6722", "2026-07-23 23:18", 73.4], ["CBR09018GO0", "CBR3001", "2026-08-27 14:42", 56.4], ["NAN05001GO0", "NAN0045", "2026-08-19 07:37", 51.2], ["CBR04109GO0", "CBR0005", "2026-08-27 20:29", 40.2], ["NRT05005GO0", NaN, "2026-08-22 20:30", 40.2], ["CMI15010GO0", "CMI1659", "2026-07-18 23:31", 33.8], ["CMI07016GO0", "CMI1994", "2026-07-18 17:43", 31.0], ["UBR05013GO0", "UBR7166", "2026-07-11 20:52", 27.9]];
+
+new Chart(document.getElementById('tC'),{type:'line',data:{labels:tL,datasets:[
+  {label:'No AC Link Down',data:tNL,borderColor:'#ef4444',backgroundColor:'rgba(239,68,68,.07)',fill:true,tension:.4,pointRadius:0,borderWidth:2},
+  {label:'No AC Node Down',data:tNN,borderColor:'#f97316',backgroundColor:'rgba(249,115,22,.07)',fill:true,tension:.4,pointRadius:0,borderWidth:2},
+  {label:'Good',data:tG,borderColor:'#22c55e',backgroundColor:'rgba(34,197,94,.05)',fill:true,tension:.4,pointRadius:0,borderWidth:2},
+  {label:'Link Down',data:tLd,borderColor:'#eab308',backgroundColor:'rgba(234,179,8,.04)',fill:true,tension:.4,pointRadius:0,borderWidth:1.5},
+  {label:'Node Down',data:tNd,borderColor:'#8b5cf6',backgroundColor:'rgba(139,92,246,.04)',fill:true,tension:.4,pointRadius:0,borderWidth:1.5}
+]},options:{responsive:true,maintainAspectRatio:true,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false},tooltip:{...tt}},scales:{x:{grid:{display:false},ticks:{maxTicksLimit:10,font:{size:9},maxRotation:45}},y:{grid:{color:'rgba(37,43,69,.6)'},ticks:{font:{size:9}}}}});
+
+new Chart(document.getElementById('dC'),{type:'doughnut',data:{labels:['No AC Link Down','Good','No AC Node Down','Link Down','Node Down'],datasets:[{data:[30221,8719,1504,707,126],backgroundColor:['#ef4444','#22c55e','#f97316','#eab308','#8b5cf6'],borderWidth:0,hoverOffset:8}]},options:{responsive:true,cutout:'70%',plugins:{legend:{position:'bottom',labels:{padding:10,font:{size:10},boxWidth:10,boxHeight:10}},tooltip:{...tt}}});
+
+new Chart(document.getElementById('mC'),{type:'bar',data:{labels:["Jun 2026", "Jul 2026", "Aug 2026", "Sep 2026"],datasets:[
+  {label:'No AC Link Down',data:[2291, 12201, 13631, 2098],backgroundColor:'#ef4444',stack:'s'},
+  {label:'No AC Node Down',data:[95, 591, 706, 112],backgroundColor:'#f97316',stack:'s'},
+  {label:'Good',data:[795, 3570, 3867, 487],backgroundColor:'#22c55e',stack:'s'},
+  {label:'Link Down',data:[67, 304, 284, 52],backgroundColor:'#eab308',stack:'s'},
+  {label:'Node Down',data:[8, 52, 53, 13],backgroundColor:'#8b5cf6',stack:'s'}
+]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{padding:8,font:{size:10},boxWidth:10,boxHeight:10}},tooltip:{...tt}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,grid:{color:'rgba(37,43,69,.6)'}}}});
+
+new Chart(document.getElementById('duC'),{type:'bar',data:{labels:['< 30 min','30-120 min','2-8 hr','8-24 hr','> 24 hr'],datasets:[{label:'Events',data:[28116, 7598, 4044, 1137, 382],backgroundColor:['#22c55e','#3b82f6','#eab308','#f97316','#ef4444'],borderRadius:4}]},options:{responsive:true,indexAxis:'y',plugins:{legend:{display:false},tooltip:{...tt}},scales:{x:{grid:{color:'rgba(37,43,69,.6)'}},y:{grid:{display:false}}}});
+
+new Chart(document.getElementById('pC'),{type:'bar',data:{labels:provD.map(p=>p[0]),datasets:[
+  {label:'Total Events',data:provD.map(p=>p[1]),backgroundColor:'rgba(99,102,241,.7)',borderRadius:3},
+  {label:'No AC Node Down',data:provD.map(p=>p[2]),backgroundColor:'#f97316',borderRadius:3}
+]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{padding:8,font:{size:10},boxWidth:10,boxHeight:10}},tooltip:{...tt}},scales:{x:{grid:{display:false},ticks:{font:{size:9}}},y:{grid:{color:'rgba(37,43,69,.6)'}}}});
+
+new Chart(document.getElementById('dvC'),{type:'bar',data:{labels:devD.map(d=>d[0]),datasets:[{label:'Events',data:devD.map(d=>d[2]),backgroundColor:devD.map((_,i)=>`hsl(${220+i*8},70%,60%)`),borderRadius:3}]},options:{responsive:true,indexAxis:'y',plugins:{legend:{display:false},tooltip:{...tt,callbacks:{afterLabel:i=>'Site: '+devD[i.dataIndex][1]}}},scales:{x:{grid:{color:'rgba(37,43,69,.6)'}},y:{grid:{display:false},ticks:{font:{size:10}}}}});
+
+function fd(m){if(m>=1440)return'<span class="cr">'+(m/60).toFixed(1)+' hr</span>';if(m>=240)return'<span class="co">'+(m/60).toFixed(1)+' hr</span>';return m+' min';}
+const wt=document.getElementById('wT');
+worstD.forEach((r,i)=>{const s=r[4]>=3000?'tr2':r[4]>=1000?'to2':'ty2';wt.innerHTML+=`<tr><td class="cm">${i+1}</td><td><b>${r[0]}</b></td><td class="cm">${r[1]}</td><td class="cm" style="font-size:10px">${r[2]}</td><td>${fd(r[3])}</td><td><span class="tag ${s}">${(r[4]/60).toFixed(1)} hr</span></td></tr>`;});
+const bt=document.getElementById('bT');
+battD.forEach((r,i)=>{const s=r[3]>=100?'tr2':r[3]>=40?'to2':'ty2';bt.innerHTML+=`<tr><td class="cm">${i+1}</td><td><b>${r[0]}</b></td><td class="cm">${r[1]}</td><td class="cm" style="font-size:10px">${r[2]}</td><td><span class="tag ${s}">${r[3]} hr</span></td></tr>`;});
+const pt=document.getElementById('pvT');
+const mx=Math.max(...provD.map(p=>p[1]));
+provD.forEach((p,i)=>{const rt=(p[2]/p[1]*100).toFixed(1);const rc=parseFloat(rt)>10?'cr':parseFloat(rt)>5?'co':'cg';const oc=p[3]>100?'tr2':p[3]>30?'to2':'tg2';pt.innerHTML+=`<tr><td class="cm">${i+1}</td><td><b>${p[0]}</b></td><td><div style="display:flex;align-items:center;gap:7px"><div style="flex:1;height:5px;background:#1a1f35;border-radius:3px;overflow:hidden;min-width:70px"><div style="height:100%;width:${(p[1]/mx*100).toFixed(0)}%;background:linear-gradient(90deg,#6366f1,#8b5cf6);border-radius:3px"></div></div><span>${p[1].toLocaleString()}</span></div></td><td class="co">${p[2]}</td><td><span class="tag ${oc}">${p[3]} hr</span></td><td class="cc">${p[4]}</td><td><span class="${rc}">${rt}%</span></td></tr>`;});
+</script>
+</body>
+</html>
